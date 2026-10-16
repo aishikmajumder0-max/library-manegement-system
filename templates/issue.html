@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Issue Book | LibraPro{% endblock %}
+{% block page_heading %}Issue Book{% endblock %}
+{% block content %}
+<form method="post" class="form-card"><div class="form-section"><h3>Issue a Book to Member</h3><div class="form-grid">
+<label>Book *<select name="book_id" required><option value="">Select available book</option>{% for b in books %}<option value="{{ b.id }}">{{ b.title }} — {{ b.author }} ({{ b.available }} available)</option>{% endfor %}</select></label>
+<label>Member *<select name="member_id" required><option value="">Select active member</option>{% for m in members %}<option value="{{ m.id }}">{{ m.member_id }} — {{ m.name }}</option>{% endfor %}</select></label>
+<label>Due Date *<input type="date" name="due_date" value="{{ default_due }}" required></label>
+</div><div class="info-box">Default loan period is 14 days. The available-copy count is updated automatically.</div></div>
+<div class="form-actions"><a class="btn" href="{{ url_for('loans') }}">Cancel</a><button class="btn primary">Issue Book</button></div></form>
+{% endblock %}

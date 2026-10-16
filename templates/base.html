@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Library Management System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">📚</div>
+      <div><strong>LibraPro</strong><small>Management System</small></div>
+    </div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint=='dashboard' else '' }}">🏠 Dashboard</a>
+      <a href="{{ url_for('books') }}" class="{{ 'active' if request.endpoint in ['books','add_book','edit_book'] else '' }}">📖 Books</a>
+      <a href="{{ url_for('members') }}" class="{{ 'active' if request.endpoint in ['members','add_member','edit_member'] else '' }}">👥 Members</a>
+      <a href="{{ url_for('issue_book') }}">📤 Issue Book</a>
+      <a href="{{ url_for('loans') }}" class="{{ 'active' if request.endpoint in ['loans','return_book'] else '' }}">🔄 Issue / Return</a>
+      <a href="{{ url_for('reports') }}" class="{{ 'active' if request.endpoint=='reports' else '' }}">📊 Reports</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-mini"><span class="avatar">A</span><div><b>{{ session.get('user_name','Admin') }}</b><small>{{ session.get('role','Librarian') }}</small></div></div>
+      <a href="{{ url_for('logout') }}" class="logout">↪ Logout</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div>
+        <h1>{% block page_heading %}Library Management{% endblock %}</h1>
+        <p class="muted">{{ today }}</p>
+      </div>
+      <div class="top-actions"><span class="role-pill">{{ session.get('role','Librarian') }}</span></div>
+    </header>
+
+    <section class="content">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}">{{ message }} <button onclick="this.parentElement.remove()">×</button></div>
+        {% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

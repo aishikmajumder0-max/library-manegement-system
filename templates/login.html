@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login | LibraPro</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+<div class="login-card">
+  <div class="login-logo">📚</div>
+  <h1>LibraPro</h1>
+  <p>Library Management System</p>
+  {% with messages=get_flashed_messages(with_categories=true) %}
+    {% for category,message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+  {% endwith %}
+  <form method="post">
+    <label>Username</label><input name="username" value="admin" required>
+    <label>Password</label><input name="password" type="password" value="admin123" required>
+    <button class="btn primary full" type="submit">Sign In</button>
+  </form>
+  <div class="demo-login">Demo: <b>admin</b> / <b>admin123</b></div>
+</div>
+</body>
+</html>

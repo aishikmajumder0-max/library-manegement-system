@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Reports | LibraPro{% endblock %}
+{% block page_heading %}Reports & Analytics{% endblock %}
+{% block content %}
+<div class="grid-2">
+<section class="panel"><div class="panel-head"><h3>Books by Category</h3></div><div class="table-wrap"><table><thead><tr><th>Category</th><th>Titles</th><th>Copies</th></tr></thead><tbody>{% for x in categories %}<tr><td>{{ x.category }}</td><td>{{ x.count }}</td><td>{{ x.copies }}</td></tr>{% else %}<tr><td colspan="3">No data.</td></tr>{% endfor %}</tbody></table></div></section>
+<section class="panel"><div class="panel-head"><h3>Most Issued Books</h3></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>Times Issued</th></tr></thead><tbody>{% for x in top %}<tr><td>{{ x.title }}</td><td><b>{{ x.times_issued }}</b></td></tr>{% else %}<tr><td colspan="2">No issue data yet.</td></tr>{% endfor %}</tbody></table></div></section>
+</div>
+<section class="panel"><div class="panel-head"><h3>Overdue Books</h3><span class="badge overdue">{{ overdue|length }} overdue</span></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Due Date</th><th>Days Late</th></tr></thead><tbody>
+{% for x in overdue %}<tr><td>{{ x.title }}</td><td>{{ x.name }} ({{ x.member_id }})</td><td>{{ x.due_date }}</td><td class="danger-text">{{ ((today|string)[:10]|string) }}</td></tr>{% else %}<tr><td colspan="4" class="empty">No overdue books 🎉</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

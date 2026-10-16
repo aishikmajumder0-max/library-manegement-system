@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if member else 'Add' }} Member | LibraPro{% endblock %}
+{% block page_heading %}{{ 'Edit Member' if member else 'Register Member' }}{% endblock %}
+{% block content %}
+<form method="post" class="form-card"><div class="form-section"><h3>Member Information</h3><div class="form-grid">
+<label>Member ID *<input name="member_id" value="{{ member.member_id if member else '' }}" required></label>
+<label>Full Name *<input name="name" value="{{ member.name if member else '' }}" required></label>
+<label>Email<input type="email" name="email" value="{{ member.email if member else '' }}"></label>
+<label>Phone<input name="phone" value="{{ member.phone if member else '' }}"></label>
+<label>Department<input name="department" value="{{ member.department if member else '' }}"></label>
+<label>Join Date<input type="date" name="join_date" value="{{ member.join_date if member else today }}"></label>
+<label>Status<select name="status"><option {{ 'selected' if not member or member.status=='Active' else '' }}>Active</option><option {{ 'selected' if member and member.status=='Inactive' else '' }}>Inactive</option></select></label>
+</div></div><div class="form-actions"><a class="btn" href="{{ url_for('members') }}">Cancel</a><button class="btn primary">Save Member</button></div></form>
+{% endblock %}

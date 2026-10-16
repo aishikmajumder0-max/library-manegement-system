@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Loans | LibraPro{% endblock %}
+{% block page_heading %}Issue & Return{% endblock %}
+{% block content %}
+<div class="tabs"><a class="{{ 'selected' if status=='all' else '' }}" href="{{ url_for('loans') }}">All</a><a class="{{ 'selected' if status=='Issued' else '' }}" href="{{ url_for('loans',status='Issued') }}">Issued</a><a class="{{ 'selected' if status=='Returned' else '' }}" href="{{ url_for('loans',status='Returned') }}">Returned</a><a class="btn primary" href="{{ url_for('issue_book') }}">+ Issue Book</a></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Issue Date</th><th>Due Date</th><th>Return Date</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for x in loans %}<tr><td><b>{{ x.title }}</b><small>{{ x.isbn }}</small></td><td>{{ x.name }}<small>{{ x.member_id }}</small></td><td>{{ x.issue_date }}</td><td>{{ x.due_date }}</td><td>{{ x.return_date or '-' }}</td><td>{% if x.status=='Issued' and x.due_date < today %}<span class="badge overdue">Overdue</span>{% else %}<span class="badge {{ x.status|lower }}">{{ x.status }}</span>{% endif %}</td><td>{% if x.status=='Issued' %}<form method="post" action="{{ url_for('return_book',loan_id=x.id) }}" onsubmit="return confirm('Mark this book as returned?')"><button class="btn small">Return</button></form>{% else %}—{% endif %}</td></tr>
+{% else %}<tr><td colspan="7" class="empty">No loan records.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

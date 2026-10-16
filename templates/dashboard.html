@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | LibraPro{% endblock %}
+{% block page_heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div><h2>Welcome back, {{ session.get('user_name') }} 👋</h2><p>Manage your library from one place.</p></div>
+  <a class="btn primary" href="{{ url_for('issue_book') }}">+ Issue Book</a>
+</div>
+<div class="stats-grid">
+  <div class="stat-card"><span class="stat-icon blue">📚</span><div><small>Total Books</small><strong>{{ stats.books }}</strong><em>{{ stats.copies }} copies</em></div></div>
+  <div class="stat-card"><span class="stat-icon green">✓</span><div><small>Available Copies</small><strong>{{ stats.available }}</strong><em>Ready to issue</em></div></div>
+  <div class="stat-card"><span class="stat-icon purple">👥</span><div><small>Active Members</small><strong>{{ stats.members }}</strong><em>Registered users</em></div></div>
+  <div class="stat-card"><span class="stat-icon orange">↗</span><div><small>Issued Books</small><strong>{{ stats.issued }}</strong><em>{{ stats.overdue }} overdue</em></div></div>
+</div>
+<div class="grid-2">
+<section class="panel">
+  <div class="panel-head"><h3>Recent Transactions</h3><a href="{{ url_for('loans') }}">View all</a></div>
+  <div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Issue Date</th><th>Status</th></tr></thead><tbody>
+  {% for x in recent %}
+  <tr><td><b>{{ x.title }}</b></td><td>{{ x.name }}</td><td>{{ x.issue_date }}</td><td><span class="badge {{ x.status|lower }}">{{ x.status }}</span></td></tr>
+  {% else %}<tr><td colspan="4" class="empty">No transactions yet.</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+<section class="panel quick">
+  <div class="panel-head"><h3>Quick Actions</h3></div>
+  <a href="{{ url_for('add_book') }}">📘 <span>Add New Book<small>Create a new book record</small></span> →</a>
+  <a href="{{ url_for('add_member') }}">👤 <span>Register Member<small>Add library member</small></span> →</a>
+  <a href="{{ url_for('issue_book') }}">📤 <span>Issue a Book<small>Assign book to member</small></span> →</a>
+  <a href="{{ url_for('reports') }}">📊 <span>View Reports<small>Analyze library data</small></span> →</a>
+</section>
+</div>
+{% endblock %}
